@@ -21,6 +21,8 @@ public class WebApiExRateProvider implements ExRateProvider {
     public BigDecimal getExchangeRate(String currency) {
         String url = BASE_URL + currency;
 
+        // 1. URI를 준비하고 예외처리를 위한 작업을 하는 코드
+        // 특정 URL로부터 환율 정보를 가져오기 위해 준비하는 기본 틀이다. == 외부 API를 호출하는 한, 변경되지 않는다.
         URI uri;
         try {
             uri = new URI(url);
@@ -28,6 +30,8 @@ public class WebApiExRateProvider implements ExRateProvider {
             throw new RuntimeException(e);
         }
 
+        // 2. API를 호출하고 서버로부터 응답을 가져오는 코드
+        // API를 호출하는 기술과 방법이 변경될 수 있다. == 변경되고 확장하는 성질을 가진다.
         String response;
         try {
             HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
@@ -38,6 +42,8 @@ public class WebApiExRateProvider implements ExRateProvider {
             throw new RuntimeException(e);
         }
 
+        // 3. JSON 문자열을 파싱해서 필요한 정보를 추출하는 코드
+        // 어떤 API를 호출하냐에 따라 JSON 응답 구조가 달라질 수 있고, 그에 따라 변경되어야 한다. == 변경하는 성질을 가진다.
         ExchangeRateData data;
         try {
             data = mapper.readValue(response, ExchangeRateData.class);
