@@ -9,6 +9,13 @@ import tobyspring.hellospring.exrate.WebApiExRateProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * 현 테스트 코드의 문제점
+ *
+ * 1. 우리가 제어할 수 없는 외부 시스템에 문제가 생기면?
+ * 2. ExRateProvider가 반환하는 환율 값으로 계산한 것인가?
+ * 3. 환율 유효 시간 계산은 정확한가?
+ */
 class PaymentServiceTest {
 
     @Test
