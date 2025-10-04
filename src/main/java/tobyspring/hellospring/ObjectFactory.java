@@ -1,20 +1,23 @@
 package tobyspring.hellospring;
 
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-// @Component가 붙은 클래스를 스캔해서 스프링 Bean으로 등록하도록 알리는 어노테이션
-// @ComponentScan이 붙은 클래스도 스프링 컨테이너에 포함된다.
-@ComponentScan
+@Configuration
 public class ObjectFactory {
 
-    /*@Bean // 스프링 Bean으로 등록한다.
+    @Bean
     public PaymentService paymentService() {
-        return new PaymentService(exRateProvider());
+        return new PaymentService(cachedExRateProvider());
+    }
+
+    @Bean
+    public ExRateProvider cachedExRateProvider() {
+        return new CachedExRateProvider(exRateProvider());
     }
 
     @Bean
     public ExRateProvider exRateProvider() {
-//        return new WebApiExRateProvider();
-        return new FixedExRateProvider();
-    }*/
+        return new WebApiExRateProvider();
+    }
 }
