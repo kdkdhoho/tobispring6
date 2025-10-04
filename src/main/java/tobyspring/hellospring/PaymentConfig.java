@@ -1,23 +1,27 @@
 package tobyspring.hellospring;
 
+import java.time.Clock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tobyspring.hellospring.payment.ExRateProvider;
-import tobyspring.hellospring.payment.StubExRateProvider;
+import tobyspring.hellospring.exrate.WebApiExRateProvider;
 import tobyspring.hellospring.payment.PaymentService;
 
-import static java.math.BigDecimal.valueOf;
-
 @Configuration
-public class TestObjectFactory {
+public class PaymentConfig {
 
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(exRateProvider());
+        return new PaymentService(clock(), exRateProvider());
     }
 
     @Bean
     public ExRateProvider exRateProvider() {
-        return new StubExRateProvider(valueOf(1_000));
+        return new WebApiExRateProvider();
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
     }
 }

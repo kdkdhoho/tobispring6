@@ -2,15 +2,15 @@ package tobyspring.hellospring.payment;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import tobyspring.hellospring.TestObjectFactory;
+import tobyspring.hellospring.TestPaymentConfig;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,16 +25,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 이러한 테스트 방식을 '스프링 컨테이너 테스트'라고 부른다.
  */
 @ExtendWith(SpringExtension.class) // JUnit이 @ContextConfiguration 어노테이션을 사용하려면 SpringExtension.class를 추가해야 한다.
-@ContextConfiguration(classes = TestObjectFactory.class)
+@ContextConfiguration(classes = TestPaymentConfig.class)
 class PaymentServiceSpringTest {
 
     @Autowired
+    Clock clock;
+    @Autowired
     PaymentService paymentService;
-
-    /**
-     * 테스트에서 Stub 객체를 다룰 때는 Interface 타입이 아닌 구체 클래스 타입으로 다루는 것이 용이할 수 있다.
-     * 구체 클래스를 다뤄야 테스트를 좀 더 구체적이고 유연하게 할 수 있기 때문이다.
-     */
     @Autowired
     StubExRateProvider stubExRateProvider;
 
@@ -49,5 +46,8 @@ class PaymentServiceSpringTest {
         Payment payment2 = paymentService.prepare(1L, "USD", BigDecimal.TEN);
         assertThat(payment2.exRate()).isEqualByComparingTo(valueOf(500));
         assertThat(payment2.korCurrencyAmount()).isEqualByComparingTo(valueOf(5_000));
+
+        assertThat(payment1.validUntil()).isEqualTo(LocalDateTime.now(clock).plusMinutes(30));
+        assertThat(payment2.validUntil()).isEqualTo(LocalDateTime.now(clock).plusMinutes(30));
     }
 }
