@@ -28,6 +28,10 @@ public class Payment {
         this.validUntil = validUntil;
     }
 
+    public BigDecimal exRate() {
+        return exRate;
+    }
+
     public Long orderId() {
         return orderId;
     }
@@ -38,10 +42,6 @@ public class Payment {
 
     public BigDecimal foreignCurrencyAmount() {
         return foreignCurrencyAmount;
-    }
-
-    public BigDecimal exRate() {
-        return exRate;
     }
 
     public BigDecimal korCurrencyAmount() {

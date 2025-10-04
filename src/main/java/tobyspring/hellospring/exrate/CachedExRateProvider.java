@@ -7,11 +7,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import tobyspring.hellospring.payment.ExRateProvider;
 
-/**
- * 기존 동작에 성능 개선을 위해 캐싱을 도입하게 되었다.</br>
- * CachedExRateProvider는 '데코레이터 패턴'을 적용하여, 기존 코드는 수정하지 않고 캐시 기능을 추가했다.</br>
- * 물론 오브젝트 구성 정보가 변경되어야 하므로 ObjectFactory는 변경되어야 한다.
- */
 public class CachedExRateProvider implements ExRateProvider {
 
     private final ExRateProvider target;
