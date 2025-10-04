@@ -1,6 +1,5 @@
 package tobyspring.hellospring.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -37,7 +36,7 @@ class PaymentServiceSpringTest {
 
     @Test
     @DisplayName("주문번호, 외국 통화 종류, 외국 통화 기준 결제 금액을 전달 받아서 적용 환율, 원화 환산 금액, 원화 환산 금액 유효시간 정보를 합해 Payment 객체를 생성한다.")
-    void convertedAmount() throws IOException {
+    void convertedAmount() {
         Payment payment1 = paymentService.prepare(1L, "USD", BigDecimal.TEN);
         assertThat(payment1.exRate()).isEqualByComparingTo(valueOf(1_000));
         assertThat(payment1.korCurrencyAmount()).isEqualByComparingTo(valueOf(10_000));

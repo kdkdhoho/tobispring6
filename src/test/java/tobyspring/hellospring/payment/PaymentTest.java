@@ -1,6 +1,5 @@
 package tobyspring.hellospring.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Duration;
@@ -17,7 +16,7 @@ class PaymentTest {
     private final ExRateProvider exRateProvider = currency -> BigDecimal.valueOf(1_000);
 
     @Test
-    void createPrepared() throws IOException {
+    void createPrepared() {
         Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault());
 
         Payment payment = Payment.createPrepared(
@@ -33,7 +32,7 @@ class PaymentTest {
     }
 
     @Test
-    void isValidTest() throws IOException {
+    void isValidTest() {
         Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault());
 
         Payment payment = Payment.createPrepared(

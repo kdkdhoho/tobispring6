@@ -1,6 +1,5 @@
 package tobyspring.hellospring.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -36,7 +35,7 @@ public class Payment {
             BigDecimal foreignCurrencyAmount,
             ExRateProvider exRateProvider,
             Clock clock
-    ) throws IOException {
+    ) {
         BigDecimal exRate = exRateProvider.getExchangeRate(currency);
 
         BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);

@@ -1,6 +1,5 @@
 package tobyspring.hellospring.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 public class StubExRateProvider implements ExRateProvider {
@@ -12,7 +11,7 @@ public class StubExRateProvider implements ExRateProvider {
     }
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws IOException {
+    public BigDecimal getExchangeRate(String currency) {
         return exRate;
     }
 

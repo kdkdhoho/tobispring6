@@ -3,7 +3,6 @@ package tobyspring.hellospring.exrate;
 import java.math.BigDecimal;
 import tobyspring.hellospring.payment.ExRateProvider;
 
-//@Component
 public class FixedExRateProvider implements ExRateProvider {
 
     @Override
