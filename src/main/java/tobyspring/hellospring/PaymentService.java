@@ -3,7 +3,9 @@ package tobyspring.hellospring;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PaymentService {
 
     /**
