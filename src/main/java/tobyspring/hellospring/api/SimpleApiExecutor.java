@@ -11,11 +11,9 @@ public class SimpleApiExecutor implements ApiExecutor {
 
     @Override
     public String execute(URI uri) throws IOException {
-        String response;
         HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            response = br.lines().collect(Collectors.joining());
+            return br.lines().collect(Collectors.joining());
         }
-        return response;
     }
 }
