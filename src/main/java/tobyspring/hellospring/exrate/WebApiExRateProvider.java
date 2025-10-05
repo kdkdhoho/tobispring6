@@ -1,19 +1,19 @@
 package tobyspring.hellospring.exrate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import tobyspring.hellospring.api.ApiExecutor;
+import tobyspring.hellospring.api.ErApiExRateExtractor;
 import tobyspring.hellospring.api.ExRateExtractor;
 import tobyspring.hellospring.api.SimpleApiExecutor;
 import tobyspring.hellospring.payment.ExRateProvider;
 
 public class WebApiExRateProvider implements ExRateProvider {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+
     private static final String BASE_URL = "https://open.er-api.com/v6/latest/";
 
     @Override
@@ -24,11 +24,7 @@ public class WebApiExRateProvider implements ExRateProvider {
         // 클라이언트가 콜백을 만들어 템플릿 메서드를 호출하는 구조를 가집니다.
         // 물론 람다식으로 콜백 메서드를 전달할 수 있습니다.
         // **특징으로, Client 콜백 메서드가 Client코드의 final 변수에 참조가 가능합니다.**
-        return runApiForExRate(
-                url,
-                new SimpleApiExecutor(),
-                response -> mapper.readValue(response, ExchangeRateData.class).rates().get("KRW")
-        );
+        return runApiForExRate(url, new SimpleApiExecutor(), new ErApiExRateExtractor());
     }
 
     // 템플릿에 해당하는 메서드입니다.
@@ -47,7 +43,7 @@ public class WebApiExRateProvider implements ExRateProvider {
         // 추후 언제든지 API를 호출하는 기술과 방법이 변경될 수 있습니다. 이는 변경되고 확장하는 성질을 가집니다.
         String response;
         try {
-            response = apiExecutor.execute(uri); // 콜백을 호출합니다. 이때 참조정보로 uri를 전달합니다.
+            response = apiExecutor.execute(uri); // 콜백을 호출합니다. 참조 정보로 uri를 전달합니다.
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +51,7 @@ public class WebApiExRateProvider implements ExRateProvider {
         // 3. JSON 문자열을 파싱해서 필요한 정보를 추출하는 코드입니다.
         // 1번에서 어떤 URL로 API를 호출하냐에 따라 JSON 응답 구조가 달라질 수 있고, 그에 따라 변경되어야 합니다. 즉, 변경하는 성질을 가집니다.
         try {
-            return exRateExtractor.extract(response);
+            return exRateExtractor.extract(response); // 콜백을 호출합니다. 참조 정보로 response를 전달합니다.
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
