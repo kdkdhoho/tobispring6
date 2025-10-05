@@ -3,7 +3,7 @@ package tobyspring.hellospring.exrate;
 import java.math.BigDecimal;
 import tobyspring.hellospring.api.ApiTemplate;
 import tobyspring.hellospring.api.ErApiExRateExtractor;
-import tobyspring.hellospring.api.SimpleApiExecutor;
+import tobyspring.hellospring.api.HttpClientExecutor;
 import tobyspring.hellospring.payment.ExRateProvider;
 
 public class WebApiExRateProvider implements ExRateProvider {
@@ -14,6 +14,6 @@ public class WebApiExRateProvider implements ExRateProvider {
     public BigDecimal getExchangeRate(String currency) {
         String url = BASE_URL + currency;
         ApiTemplate apiTemplate = new ApiTemplate();
-        return apiTemplate.getExRate(url, new SimpleApiExecutor(), new ErApiExRateExtractor());
+        return apiTemplate.getExRate(url, new HttpClientExecutor(), new ErApiExRateExtractor());
     }
 }
