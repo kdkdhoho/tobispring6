@@ -10,7 +10,7 @@ public class ErApiExRateExtractor implements ExRateExtractor {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public BigDecimal extract(String response) throws JsonProcessingException {
-        return mapper.readValue(response, ExchangeRateData.class).rates().get("KRW");
+    public BigDecimal extract(String json) throws JsonProcessingException {
+        return mapper.readValue(json, ExchangeRateData.class).rates().get("KRW");
     }
 }
