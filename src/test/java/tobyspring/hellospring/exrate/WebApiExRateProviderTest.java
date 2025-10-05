@@ -7,12 +7,9 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tobyspring.hellospring.api.ApiExecutor;
 import tobyspring.hellospring.api.ApiTemplate;
-import tobyspring.hellospring.api.ExRateExtractor;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class) // JUnit5에서 Mockito 관련 어노테이션을 사용하기 위해 필요한 어노테이션
@@ -36,7 +33,7 @@ class WebApiExRateProviderTest {
         webApiExRateProvider.getExchangeRate(currency);
 
         // then
-        verify(apiTemplate).getExRate(urlCaptor.capture(), any(ApiExecutor.class), any(ExRateExtractor.class));
+        verify(apiTemplate).getExRate(urlCaptor.capture());
         assertThat(urlCaptor.getValue()).isEqualTo("https://open.er-api.com/v6/latest/" + currency);
     }
 }

@@ -8,6 +8,34 @@ import java.net.URISyntaxException;
 
 public class ApiTemplate {
 
+    private final ApiExecutor apiExecutor;
+    private final ExRateExtractor exRateExtractor;
+
+    // 기본 생성자로 콜백 메서드에 대해 Default 값을 설정합니다.
+    public ApiTemplate() {
+        this.apiExecutor = new SimpleApiExecutor();
+        this.exRateExtractor = new ErApiExRateExtractor();
+    }
+
+    // 생성자로 ApiTemplate이 Default로 사용할 콜백 메서드를 지정할 수 있습니다.
+    public ApiTemplate(ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
+        this.apiExecutor = apiExecutor;
+        this.exRateExtractor = exRateExtractor;
+    }
+
+    // Default로 설정된 콜백 메서드를 사용하는 메서드입니다.
+    public BigDecimal getExRate(String url) {
+        return getExRate(url, apiExecutor, exRateExtractor);
+    }
+
+    public BigDecimal getExRate(String url, ApiExecutor exRateExecutor) {
+        return getExRate(url, exRateExecutor, exRateExtractor);
+    }
+
+    public BigDecimal getExRate(String url, ExRateExtractor exRateExtractor) {
+        return getExRate(url, apiExecutor, exRateExtractor);
+    }
+
     /**
      * 템플릿 메서드입니다.
      *
@@ -17,8 +45,6 @@ public class ApiTemplate {
      * @return 환율을 반환합니다.
      */
     public BigDecimal getExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
-        // 1. URI를 준비하고 예외처리를 위한 작업을 하는 코드입니다.
-        // 외부에서 API를 호출하기 위한 기본 틀입니다. 외부 API를 호출하는 한, 변경되지 않는 영역입니다.
         URI uri;
         try {
             uri = new URI(url);
@@ -26,19 +52,15 @@ public class ApiTemplate {
             throw new RuntimeException(e);
         }
 
-        // 2. API를 호출하고 서버로부터 응답을 가져오는 코드입니다.
-        // 추후 언제든지 API를 호출하는 기술과 방법이 변경될 수 있습니다. 이는 변경되고 확장하는 성질을 가집니다.
         String response;
         try {
-            response = apiExecutor.execute(uri); // 콜백을 호출합니다. 참조 정보로 uri를 전달합니다.
+            response = apiExecutor.execute(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        // 3. JSON 문자열을 파싱해서 필요한 정보를 추출하는 코드입니다.
-        // 1번에서 어떤 URL로 API를 호출하냐에 따라 JSON 응답 구조가 달라질 수 있고, 그에 따라 변경되어야 합니다. 즉, 변경하는 성질을 가집니다.
         try {
-            return exRateExtractor.extract(response); // 콜백을 호출합니다. 참조 정보로 response를 전달합니다.
+            return exRateExtractor.extract(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
