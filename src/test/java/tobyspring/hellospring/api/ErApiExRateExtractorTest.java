@@ -1,0 +1,27 @@
+package tobyspring.hellospring.api;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.math.BigDecimal;
+import org.junit.jupiter.api.Test;
+
+import static java.math.BigDecimal.valueOf;
+import static org.assertj.core.api.Assertions.assertThat;
+
+class ErApiExRateExtractorTest {
+
+    private final ErApiExRateExtractor extractor = new ErApiExRateExtractor();
+
+    @Test
+    void JSON_응답을_받아_환율_정보로_파싱한다() throws JsonProcessingException {
+        // given
+        String json = """
+                      {"result":"success","provider":"https://www.exchangerate-api.com","documentation":"https://www.exchangerate-api.com/docs/free","terms_of_use":"https://www.exchangerate-api.com/terms","time_last_update_unix":1759622551,"time_last_update_utc":"Sun, 05 Oct 2025 00:02:31 +0000","time_next_update_unix":1759709341,"time_next_update_utc":"Mon, 06 Oct 2025 00:09:01 +0000","time_eol_unix":0,"base_code":"USD","rates":{"USD":1,"AED":3.6725,"AFN":67.618089,"ALL":82.427802,"AMD":383.09675,"ANG":1.79,"AOA":921.479715,"ARS":1424.75,"AUD":1.514384,"AWG":1.79,"AZN":1.70024,"BAM":1.665866,"BBD":2,"BDT":121.688999,"BGN":1.665897,"BHD":0.376,"BIF":2956.475472,"BMD":1,"BND":1.288917,"BOB":6.925778,"BRL":5.337481,"BSD":1,"BTN":88.792491,"BWP":14.101093,"BYN":3.131126,"BZD":2,"CAD":1.395141,"CDF":2651.292197,"CHF":0.795768,"CLP":961.893377,"CNY":7.128269,"COP":3905.281539,"CRC":504.022827,"CUP":24,"CVE":93.917554,"CZK":20.66695,"DJF":177.721,"DKK":6.3562,"DOP":62.394038,"DZD":129.645241,"EGP":47.795309,"ERN":15,"ETB":143.613514,"EUR":0.851745,"FJD":2.255171,"FKP":0.742208,"FOK":6.356196,"GBP":0.74221,"GEL":2.723497,"GGP":0.742208,"GHS":12.639624,"GIP":0.742208,"GMD":73.416574,"GNF":8684.563327,"GTQ":7.665304,"GYD":209.334004,"HKD":7.781712,"HNL":26.249675,"HRK":6.417465,"HTG":131.039309,"HUF":331.015613,"IDR":16575.368571,"ILS":3.30529,"IMP":0.742208,"INR":88.792543,"IQD":1309.634644,"IRR":42243.072213,"ISK":121.071073,"JEP":0.742208,"JMD":160.408905,"JOD":0.709,"JPY":147.388954,"KES":129.194951,"KGS":87.279008,"KHR":4014.236584,"KID":1.514021,"KMF":419.030587,"KRW":1405.718426,"KWD":0.305711,"KYD":0.833333,"KZT":547.348173,"LAK":21740.767787,"LBP":89500,"LKR":302.382169,"LRD":181.474636,"LSL":17.237886,"LYD":5.407784,"MAD":9.105608,"MDL":16.688467,"MGA":4456.31285,"MKD":52.571345,"MMK":2101.382042,"MNT":3605.219015,"MOP":8.015164,"MRU":40.035219,"MUR":45.508473,"MVR":15.438435,"MWK":1744.294106,"MXN":18.396369,"MYR":4.207018,"MZN":63.721958,"NAD":17.237886,"NGN":1466.060975,"NIO":36.783272,"NOK":9.950503,"NPR":142.067986,"NZD":1.714507,"OMR":0.384497,"PAB":1,"PEN":3.470368,"PGK":4.236177,"PHP":57.977963,"PKR":283.138617,"PLN":3.625597,"PYG":7088.952974,"QAR":3.64,"RON":4.337021,"RSD":99.802377,"RUB":82.074046,"RWF":1452.411613,"SAR":3.75,"SBD":8.177937,"SCR":14.870302,"SDG":509.324611,"SEK":9.370902,"SGD":1.288917,"SHP":0.742208,"SLE":23.337042,"SLL":23337.042492,"SOS":572.05303,"SRD":38.383474,"SSP":4696.617639,"STN":20.867728,"SYP":13104.548778,"SZL":17.237886,"THB":32.381588,"TJS":9.3969,"TMT":3.500518,"TND":2.903838,"TOP":2.366643,"TRY":41.693813,"TTD":6.763428,"TVD":1.514021,"TWD":30.414192,"TZS":2447.92231,"UAH":41.248961,"UGX":3434.050771,"UYU":39.878221,"UZS":12097.671834,"VES":185.3983,"VND":26281.774704,"VUV":119.620619,"WST":2.752704,"XAF":558.707449,"XCD":2.7,"XCG":1.79,"XDR":0.729265,"XOF":558.707449,"XPF":101.640317,"YER":239.229489,"ZAR":17.237917,"ZMW":23.886968,"ZWL":26.6559}}
+                      """;
+
+        // when
+        BigDecimal result = extractor.extract(json);
+
+        // then
+        assertThat(result).isEqualByComparingTo(valueOf(1405.718426));
+    }
+}

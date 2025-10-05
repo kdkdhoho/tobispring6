@@ -10,10 +10,15 @@ public class WebApiExRateProvider implements ExRateProvider {
 
     private static final String BASE_URL = "https://open.er-api.com/v6/latest/";
 
+    private final ApiTemplate apiTemplate;
+
+    public WebApiExRateProvider(ApiTemplate apiTemplate) {
+        this.apiTemplate = apiTemplate;
+    }
+
     @Override
     public BigDecimal getExchangeRate(String currency) {
         String url = BASE_URL + currency;
-        ApiTemplate apiTemplate = new ApiTemplate();
         return apiTemplate.getExRate(url, new HttpClientExecutor(), new ErApiExRateExtractor());
     }
 }
