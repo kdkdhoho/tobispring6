@@ -1,6 +1,7 @@
 package tobyspring.hellospring.order;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -23,5 +24,9 @@ public class OrderService {
             orderRepository.save(order);
             return order;
         });
+    }
+
+    public Optional<Order> findOrder(Long id) {
+        return orderRepository.findById(id);
     }
 }
