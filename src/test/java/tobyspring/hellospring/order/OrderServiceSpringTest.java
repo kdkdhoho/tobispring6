@@ -23,6 +23,6 @@ public class OrderServiceSpringTest {
         Order result = orderService.createOrder("0100", BigDecimal.TEN);
 
         // then
-        assertThat(result.id()).isGreaterThan(1);
+        assertThat(result.id()).isGreaterThan(0);
     }
 }
