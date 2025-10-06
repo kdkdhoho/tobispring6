@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Import(OrderConfig.class)
 @ExtendWith(SpringExtension.class)
-public class OrderServiceSpringTest {
+public class OrderServiceImplSpringTest {
 
     @Autowired
     private OrderService orderService;
