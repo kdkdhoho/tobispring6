@@ -1,6 +1,7 @@
 package tobyspring.hellospring.order;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -21,14 +22,18 @@ public class OrderService {
     public Order createOrder(String orderNumber, BigDecimal totalAmount) {
         Order order = new Order(orderNumber, totalAmount);
 
-        // 문제점 2. DB에 값을 쓸 때마다 트랜잭션 매니저 코드가 항상 끼게 된다.
-        return new TransactionTemplate(txManager).execute(status -> {
-            orderRepository.save(order);
-            return order;
-        });
+        orderRepository.save(order);
+        return order;
     }
 
-    public Optional<Order> findOrder(Long id) {
+    public List<Order> createOrders(List<OrderRequest> requests) {
+        return new TransactionTemplate(txManager).execute(status -> requests.stream()
+                .map(request -> createOrder(request.orderNumber(), request.totalNumber()))
+                .toList()
+        );
+    }
+
+    public Optional<Order> findById(Long id) {
         return orderRepository.findById(id);
     }
 }
